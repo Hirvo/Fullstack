@@ -1,0 +1,8 @@
+note over selain:
+tapahtumankäsittelijä lisää listaan muistiinpanon ja
+lähettää muistiinpanon sisällön ja datatyypin (JSON) palvelimelle
+end note
+
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+palvelin-->selain: Statuskoodi 201 (created)
+
