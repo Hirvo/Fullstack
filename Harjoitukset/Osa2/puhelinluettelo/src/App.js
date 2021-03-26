@@ -8,6 +8,33 @@ const Person = ({ person }) => {
   )
 }
 
+const Filter = (props) => {
+  return (
+    <div>        
+      filter shown with <input value={props.newFilter} 
+      onChange={props.handler}/>
+      </div> 
+  )
+}
+
+const PersonFrom = (props) => {
+  return (
+    <form onSubmit={props.addName}>
+    <div>
+      name:   <input value={props.newName} 
+    onChange={props.nameHandler}/>
+    </div>   
+    <div>
+      number:   <input value={props.newNumber} 
+    onChange={props.numberHandler}/>
+    </div>   
+    <div>
+      <button type="submit">add</button>
+    </div>
+  </form>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -31,7 +58,8 @@ const App = () => {
     }
     else {
       setPersons(persons.concat(personObject))
-      setNewName('')      
+      setNewName('')  
+      setNewNumber('')      
     }
      
 }
@@ -57,28 +85,17 @@ const handleFilterChange = event => {
   return (
     <div>
       <h2>Phonebook</h2>
-      
-      <div>
-        filter shown with <input value={newFilter} 
-      onChange={handleFilterChange}/>
-      </div>  
-    
-      <h2>add a new</h2>
-      <div>debug: {newName}</div>
 
-      <form onSubmit={addName}>
-        <div>
-          name:   <input value={newName} 
-        onChange={handlePersonsChange}/>
-        </div>   
-        <div>
-          number:   <input value={newNumber} 
-        onChange={handleNumberChange}/>
-        </div>   
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter filter={newFilter} handler={handleFilterChange} />
+          
+      <h2>add a new</h2>
+
+      <PersonFrom addName={addName} 
+      newName={newName}
+      nameHandler={handlePersonsChange} 
+      newNumber={newNumber}
+      numberHandler={handleNumberChange}/>
+      
       <h2>Numbers</h2>
       <ul>
           {filtering.map(person =>
