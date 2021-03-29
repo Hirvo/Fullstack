@@ -17,13 +17,39 @@ const PrintCountry = (props) => {
           <img
               src={props.countries[props.id].flag}
               
-              width="170"
-              height="100"
+              width="200"
+              height="150"
               alt=""
 
           ></img>
+
+          <h2>Weather currently in {props.countries[props.id].capital}:</h2>
+          <Weather capital={props.countries[props.id].capital}/>          
   </div>
     )
+}
+
+const Weather = ( {capital} ) => {
+  const [weather, setWeather] = useState([])  
+    const params = {
+        access_key: process.env.REACT_APP_API_KEY,
+        query: capital
+      }    
+    
+    axios.get('http://api.weatherstack.com/current', {params})
+  .then((response)=>{
+    setWeather(response.data.current);
+    console.log(response.data);
+}) 
+
+  return (
+    <div>
+      <p> <strong>temperature:</strong>: {weather.temperature} Celsius </p>     
+      <p><strong>wind</strong> {weather.wind_speed} km/h, direction {weather.wind_degree} {weather.wind_dir} </p>
+    </div>		
+  )
+ 
+  
 }
 
 const App = () => {
