@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
 
-const Person = ({ person }) => {
+const Person = ({ person, deletePerson}) => {
   return (
     <li>{person.name} {" "}
-    {person.number}
+    {person.number} {" "}
+    <button onClick={() => deletePerson(person.id)}>
+          delete 
+        </button>
     </li>
   )
 }
@@ -73,7 +76,6 @@ const App = () => {
   }
 
 const filtering = persons.filter(person => {  
-  console.log(person.name)
   return (person.name.toLowerCase().includes(newFilter)
   );
 });
@@ -89,6 +91,16 @@ const handleNumberChange = (event) => {
 const handleFilterChange = event => {
   setNewFilter(event.target.value.toLowerCase());
 };
+
+const removePerson = ( id ) => {  
+  setPersons(persons.filter(n => n.id !== id))  
+}
+
+const deletePerson = ( id ) => {
+  personService
+  .personDelete(id)
+  .then(removePerson(id))
+  } 
 
   return (
     <div>
@@ -107,7 +119,9 @@ const handleFilterChange = event => {
       <h2>Numbers</h2>
       <ul>
           {filtering.map(person =>
-          <Person key={person.name} person={person} />
+          <Person key={person.name} person={person} 
+          deletePerson={deletePerson}
+          />
         )}
       </ul>
     </div>
