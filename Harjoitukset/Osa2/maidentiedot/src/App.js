@@ -39,7 +39,6 @@ const Weather = ( {capital} ) => {
     axios.get('http://api.weatherstack.com/current', {params})
   .then((response)=>{
     setWeather(response.data.current);
-    console.log(response.data);
 }) 
 
   return (
@@ -96,7 +95,6 @@ const handleSearches = () => {
 }
 
   if (searchedCountries.length === 1) {
-      console.log(searchedCountries[0].name);
       return (
         <PrintCountry countries={searchedCountries} id={0} />          
       );
