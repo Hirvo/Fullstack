@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import personService from './services/persons'
 
 const Person = ({ person }) => {
   return (
@@ -43,15 +44,12 @@ const App = () => {
   const [ newFilter, setNewFilter ] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
-      })
+    personService
+    .getAll()
+    .then(initialPersons => {
+      setPersons(initialPersons)
+    })
   }, [])
-  console.log('render', persons.length, 'persons')
 
   const addName = (event) => {
     event.preventDefault()
@@ -64,16 +62,19 @@ const App = () => {
       window.alert(`${newName} is already added to phonebook`);
     }
     else {
-      setPersons(persons.concat(personObject))
-      setNewName('')  
-      setNewNumber('')      
-    }
-     
-}
+      personService
+      .create(personObject)
+      .then(returnedPerson => {
+        setPersons(persons.concat(returnedPerson))
+        setNewName('') 
+        setNewNumber('')
+        })    
+      } 
+  }
 
-const filtering = persons.filter(person => {
-  return Object.keys(person).some(key =>
-    person[key].toLowerCase().includes(newFilter)
+const filtering = persons.filter(person => {  
+  console.log(person.name)
+  return (person.name.toLowerCase().includes(newFilter)
   );
 });
 
@@ -93,7 +94,7 @@ const handleFilterChange = event => {
     <div>
       <h2>Phonebook</h2>
 
-      <Filter filter={newFilter} handler={handleFilterChange} />
+      <Filter filter1={newFilter} handler={handleFilterChange} />
           
       <h2>add a new</h2>
 
