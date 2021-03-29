@@ -6,7 +6,7 @@ const Person = ({ person, deletePerson}) => {
   return (
     <li>{person.name} {" "}
     {person.number} {" "}
-    <button onClick={() => deletePerson(person.id)}>
+    <button onClick={() => deletePerson(person)}>
           delete 
         </button>
     </li>
@@ -96,10 +96,12 @@ const removePerson = ( id ) => {
   setPersons(persons.filter(n => n.id !== id))  
 }
 
-const deletePerson = ( id ) => {
-  personService
-  .personDelete(id)
-  .then(removePerson(id))
+const deletePerson = ( person ) => {
+  if (window.confirm(`delete ${person.name} ?`)){
+    personService
+    .personDelete(person.id)
+    .then(removePerson(person.id))
+    }
   } 
 
   return (
