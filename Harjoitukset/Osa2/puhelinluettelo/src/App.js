@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import personService from './services/persons'
 
 const Person = ({ person, deletePerson}) => {
@@ -10,6 +9,18 @@ const Person = ({ person, deletePerson}) => {
           delete 
         </button>
     </li>
+  )
+}
+
+const Notification = ({ message: notification }) => {
+  if (notification === null) {
+    return null
+  }
+
+  return (
+    <div className="notification">
+      {notification}
+    </div>
   )
 }
 
@@ -45,6 +56,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ newFilter, setNewFilter ] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -71,9 +83,15 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('') 
         setNewNumber('')
+        }).then(Notification => {
+          setNotificationMessage(
+            `Added '${personObject.name}'`)
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)          
         })    
       } 
-  }
+  } 
 
 const filtering = persons.filter(person => {  
   return (person.name.toLowerCase().includes(newFilter)
@@ -97,10 +115,16 @@ const removePerson = ( id ) => {
 }
 
 const deletePerson = ( person ) => {
-  if (window.confirm(`delete ${person.name} ?`)){
+  if (window.confirm(`delete ${person.name}?`)){
     personService
     .personDelete(person.id)
-    .then(removePerson(person.id))
+    .then(removePerson(person.id),
+      setNotificationMessage(
+        `Deleted '${person.name}'`),
+      setTimeout(() => {
+        setNotificationMessage(null)
+      }, 5000)          
+     )
     }
   } 
 
@@ -113,7 +137,14 @@ const updatePerson = ( person ) => {
     personService
     .update(newPerson.id, newPerson)
       .then(returnedPerson => {
-        setPersons(persons.map(person => person.id !== newPerson.id ? person : returnedPerson))
+        setPersons(persons.map(person => person.id 
+          !== newPerson.id ? person : returnedPerson));
+          setNotificationMessage(
+            `Updated the number of '${person.name}'`)
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 5000)          
+           
       })
     }  
   } 
@@ -121,8 +152,9 @@ const updatePerson = ( person ) => {
 
   return (
     <div>
+       <Notification message={notificationMessage} />
       <h2>Phonebook</h2>
-
+     
       <Filter filter1={newFilter} handler={handleFilterChange} />
           
       <h2>add a new</h2>
