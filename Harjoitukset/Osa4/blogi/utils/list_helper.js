@@ -1,5 +1,6 @@
 const _ = require('lodash')
 
+// eslint-disable-next-line no-unused-vars
 const dummy = (blogs) => {
   const test = 1
   return test
@@ -56,8 +57,6 @@ const mostLikes = (blogs) => {
         'author': key,
         'likes': _.sumBy(objs, 'likes') }))
       .value()
-
-  //const maxAuthor = _.sortBy(countedAuthors, ['blogs']).reverse()
 
   return countedAuthors[0]
 }
