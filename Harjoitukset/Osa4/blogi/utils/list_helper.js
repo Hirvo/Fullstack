@@ -45,4 +45,21 @@ const mostBlogs = (blogs) => {
   return maxAuthor[0]
 }
 
-module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs }
+const mostLikes = (blogs) => {
+  if(blogs.length === 0)
+    return ([])
+
+  var countedAuthors =
+    _(blogs)
+      .groupBy('author')
+      .map((objs, key) => ({
+        'author': key,
+        'likes': _.sumBy(objs, 'likes') }))
+      .value()
+
+  //const maxAuthor = _.sortBy(countedAuthors, ['blogs']).reverse()
+
+  return countedAuthors[0]
+}
+
+module.exports = { dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes }
