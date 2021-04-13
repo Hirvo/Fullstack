@@ -79,6 +79,40 @@ test('a blog without likes will have 0 likes ', async () => {
   expect(addedBlog[0].likes).toBe(0)
 })
 
+test('a blog without a title is not added ', async () => {
+  const newBlog = {
+    author: 'Mika hakkinen',
+    url: 'http://www.hakkinen.mika.com',
+    likes: 2
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogsAfterAdd = await helper.blogsInDB()
+
+  expect(blogsAfterAdd).toHaveLength(helper.initialBlogs.length)
+})
+
+test('a blog without a url is not added ', async () => {
+  const newBlog = {
+    title: 'Adding blogs',
+    author: 'Mika hakkinen',
+    likes: 3
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogsAfterAdd = await helper.blogsInDB()
+
+  expect(blogsAfterAdd).toHaveLength(helper.initialBlogs.length)
+})
+
 
 
 afterAll(() => {
