@@ -39,6 +39,48 @@ test('blog identification is "id"', async () => {
   expect(response.body[0].id).toBeDefined()
 })
 
+test('a blog can be added ', async () => {
+  const newBlog = {
+    title: 'blogs are cool',
+    author: 'Teemu Selanne',
+    url: 'http://www.teemu.selanne.com',
+    likes: 66
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAfterAdd = await helper.blogsInDB()
+
+  expect(blogsAfterAdd).toHaveLength(helper.initialBlogs.length + 1)
+  const titles = blogsAfterAdd.map(n => n.title)
+  expect(titles).toContain('blogs are cool')
+})
+
+test('a blog without likes will have 0 likes ', async () => {
+  const newBlog = {
+    title: 'blogs are not cool',
+    author: 'Mika hakkinen',
+    url: 'http://www.hakkinen.mika.com'
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAfterAdd = await helper.blogsInDB()
+
+  const addedBlog = blogsAfterAdd.filter(n => n.title === 'blogs are not cool')
+  expect(addedBlog[0].likes).toBe(0)
+})
+
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
