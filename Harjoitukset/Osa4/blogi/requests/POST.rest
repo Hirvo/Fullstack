@@ -1,9 +1,8 @@
-POST http://localhost:3003/api/blogs
+POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-    "title" : "cool blog 2",
-    "author" : "Jeesus Kristsu",
-    "url" : "www.jeesus.com",
-    "likes" : 2
+    "username" : "Mikko",
+    "name" : "Jeesus",
+    "password" : "secret"
 }
