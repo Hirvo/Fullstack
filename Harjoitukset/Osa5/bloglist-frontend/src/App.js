@@ -56,7 +56,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setErrorMessage('wrong username or password')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -82,8 +82,14 @@ const App = () => {
         setAuthor('')
         setTitle('')
         setUrl('')
-      })
-  }
+      }).then(Notification => {
+        setErrorMessage(
+          `A new blog '${blogObject.title}' by '${blogObject.author}' added`);
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+  })
+}
 
   const loginForm = () => (
     <form onSubmit={handleLogin}>
