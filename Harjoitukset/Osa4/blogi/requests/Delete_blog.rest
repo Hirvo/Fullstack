@@ -1,10 +1,2 @@
-POST http://localhost:3003/api/blogs
-Content-Type: application/json
-Authorization: bearer eyJhbGciOiJzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3R1c2VyIiwiaWQiOiI2MDc2ZjFiZmYyZTQ1NjA5ZThmZjkwZjIiLCJpYXQiOjE2MTg0MDg4OTQsImV4cCI6MTYxODQxMjQ5NH0.t0hDKKSCVN-20PqrLM3MsXwA0ELGcQqRTBO_VxLIzS0
-
-{
-    "title": "tämä on testi33366",
-    "author": "mikko",
-    "url": "www.ww",
-    "likes": 5
-}
+DELETE http://localhost:3003/api/blogs/6077041ca278741d7ccb32fe
+Authorization: bearer 
