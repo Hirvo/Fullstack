@@ -76,8 +76,19 @@ const App = () => {
         setTimeout(() => {
           setErrorMessage(null)
         }, 5000)
-  })
-}
+    })
+  }
+
+  const updateBlog = ( blogObject ) => {    
+    const findBlog = blogs.find(n => n.id === blogObject.blog.id)
+    const newBlog =  { ...findBlog, likes: blogObject.blog.likes+1 }
+    blogService
+    .update(newBlog.id, newBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id 
+          !== newBlog.id ? blog : returnedBlog))            
+      })      
+    } 
 
 const blogForm = () => (
   <Togglable buttonLabel="new blog" ref={blogFormRef}>
@@ -129,8 +140,10 @@ const blogForm = () => (
       </p>
        {blogForm()}
 
-        {blogs.map(blog =>
-         <Blog key={blog.id} blog={blog}/>
+        {blogs.sort(function (a, b) {
+          return b.likes - a.likes
+        }).map(blog =>
+         <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
       )}
       </div>
     }     
