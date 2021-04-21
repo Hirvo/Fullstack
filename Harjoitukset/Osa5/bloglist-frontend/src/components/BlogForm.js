@@ -15,9 +15,9 @@ const BlogForm = ({ createBlog, user }) => {
       user: {
         username: user.username,
         name: user.name
-      }   
+      }
     })
-    
+
     setAuthor('')
     setTitle('')
     setUrl('')
