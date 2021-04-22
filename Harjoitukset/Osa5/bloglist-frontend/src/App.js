@@ -41,6 +41,10 @@ const App = () => {
     }
   }, [])
 
+  const removeBlog = ( id ) => {  
+    setBlogs(blogs.filter(n => n.id !== id))  
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -90,6 +94,16 @@ const App = () => {
       })      
     } 
 
+    const deleteBlog = ( blogObject ) => {
+      if (window.confirm(`Remove blog ${blogObject.blog.title} by ${blogObject.blog.author}?`)){
+        blogService
+        .remove(blogObject.blog.id)
+          .then(result => {
+            removeBlog(blogObject.blog.id)            
+          })      
+      } 
+    }
+
 const blogForm = () => (
   <Togglable buttonLabel="new blog" ref={blogFormRef}>
     <BlogForm
@@ -123,7 +137,6 @@ const blogForm = () => (
     </form>      
   )
 
-
   return (
     <div>
        <Notification message={errorMessage} />
@@ -143,7 +156,8 @@ const blogForm = () => (
         {blogs.sort(function (a, b) {
           return b.likes - a.likes
         }).map(blog =>
-         <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
+         <Blog key={blog.id} blog={blog} updateBlog={updateBlog}
+          deleteBlog={deleteBlog} owner={user.username === blog.user.username}/>
       )}
       </div>
     }     
