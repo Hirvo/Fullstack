@@ -1,7 +1,7 @@
-import React, {useState} from 'react' 
+import React, { useState } from 'react'
 
-const Blog = ({blog, updateBlog, deleteBlog, owner}) => {
-  const [state, setState] = useState(false) 
+const Blog = ({ blog, updateBlog, deleteBlog, owner }) => {
+  const [state, setState] = useState(false)
 
   const handleShow = () => {
     setState(true)
@@ -11,7 +11,7 @@ const Blog = ({blog, updateBlog, deleteBlog, owner}) => {
     setState(false)
   }
 
-   const blogStyle = {
+  const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
@@ -24,7 +24,7 @@ const Blog = ({blog, updateBlog, deleteBlog, owner}) => {
         <div>
           {blog.title}  {blog.author} <button onClick={handleShow}>{'show'}</button>
         </div>
-  
+
       </div>
     )
   } else {
@@ -33,18 +33,18 @@ const Blog = ({blog, updateBlog, deleteBlog, owner}) => {
         <div>
           {blog.title}  {blog.author} <button onClick={handleHide}>{'hide'}</button>
         </div>
-          <div>
-            {blog.likes}  <button onClick={() => updateBlog({blog})}> like </button>
-            <br></br> {blog.url}
-            {owner ?
-            <div> <button onClick={() => deleteBlog({blog})}> delete </button> </div>:
+        <div>
+          {blog.likes}  <button onClick={() => updateBlog({ blog })}> like </button>
+          <br></br> {blog.url}
+          {owner ?
+            <div> <button onClick={() => deleteBlog({ blog })}> delete </button> </div>:
             <div></div>
-            }
-          </div>
+          }
+        </div>
       </div>
     )
-  } 
+  }
 
 }
-  
+
 export default Blog
