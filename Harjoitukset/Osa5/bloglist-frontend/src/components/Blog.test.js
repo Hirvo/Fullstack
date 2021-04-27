@@ -26,7 +26,7 @@ test('renders content', () => {
   )
 })
 
-test('clicking the button calls event handler once', async () => {
+test('clicking the show button shows the url and likes', async () => {
   const blog = {
     author: 'Kimmo Saarinen',
     title: 'Component testing is cool',
@@ -47,5 +47,30 @@ test('clicking the button calls event handler once', async () => {
   expect(component.container).toHaveTextContent(
     '2'
   )
+})
+
+test('clicking the like button twice calls the eventhandler twice', async () => {
+  const blog = {
+    author: 'Kimmo Saarinen',
+    title: 'Component testing is cool',
+    url: 'www.harri.com',
+    likes: 2
+  }
+  const mockHandler = jest.fn()
+
+  const component = render(
+    <Blog blog={blog} updateBlog={mockHandler} />
+  )
+
+  //click on the 'show' button
+  const button = component.getByText('show')
+  fireEvent.click(button)
+
+  //click twice on the 'like' button
+  const likeButton = component.getByText('like')
+  fireEvent.click(likeButton)
+  fireEvent.click(likeButton)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
 })
 
