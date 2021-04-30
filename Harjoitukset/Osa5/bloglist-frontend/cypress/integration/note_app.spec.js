@@ -59,12 +59,38 @@ describe('Blog app', function() {
       cy.contains('1')
     })
 
-    it.only('A blog can be deleted', function() {
+    it('A blog can be deleted', function() {
       cy.createBlog({ title: 'why do anything', author: 'Jhonny Walker', url: 'www.tuni.fi' })
       cy.contains('show').click()
       cy.contains('delete').click()
 
       cy.get('html').should('not.contain', 'why do anything')
     })
+
+    it('Blogs are ordered by likes', function() {
+      cy.createBlog({ title: 'first', author: 'Jhonny Walker', url: 'www.tuni.fi', likes: 4 })
+      cy.createBlog({ title: 'second', author: 'Jhonny X', url: 'www.tuni.fi', likes: 4 })
+      cy.createBlog({ title: 'third', author: 'Jhonny Y', url: 'www.tuni.fi', likes: 4 })
+      cy.contains('show').click()
+      cy.contains('show').click()
+      cy.contains('show').click()
+      cy.contains('like').click()
+      cy.contains('third Jhonny Y')
+        .parent().find('#likeButton').click()
+      cy.contains('third Jhonny Y')
+        .parent().find('#likeButton').click()
+      cy.contains('third Jhonny Y')
+        .parent().find('#likeButton').click()
+
+      cy.get('#blog-list').contains('third Jhonny Y')
+      cy.get('#blog-list')
+        .then(blogs => {
+          expect(blogs.map((index, html) => Cypress.$(html).text()).get())
+            .to.deep.equal([
+              'third  Jhonny Y hide7   like  www.tuni.fifirst  Jhonny Walker hide5   like  www.tuni.fisecond  Jhonny X hide4   like  www.tuni.fi  delete  '
+            ])
+        })
+    })
   })
 })
+

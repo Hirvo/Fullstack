@@ -154,13 +154,14 @@ const App = () => {
             </button>
           </p>
           {blogForm()}
-
-          {blogs.sort(function (a, b) {
-            return b.likes - a.likes
-          }).map(blog =>
-            <Blog key={blog.id} blog={blog} updateBlog={updateBlog}
-              deleteBlog={deleteBlog} owner={user.username === blog.user.username}/>
-          )}
+          <div id="blog-list">
+            {blogs.sort(function (a, b) {
+              return b.likes - a.likes
+            }).map(blog =>
+              <Blog key={blog.id} blog={blog} updateBlog={updateBlog}
+                deleteBlog={deleteBlog} owner={user.username === blog.user.username}/>
+            )}
+          </div>
         </div>
       }
     </div>

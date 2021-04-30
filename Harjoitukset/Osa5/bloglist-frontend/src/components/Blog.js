@@ -18,6 +18,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, owner }) => {
     borderWidth: 1,
     marginBottom: 5
   }
+
   if (!state) {
     return (
       <div style={blogStyle}>
@@ -34,7 +35,7 @@ const Blog = ({ blog, updateBlog, deleteBlog, owner }) => {
           {blog.title}  {blog.author} <button onClick={handleHide}>{'hide'}</button>
         </div>
         <div>
-          {blog.likes}  <button onClick={() => updateBlog({ blog })}> like </button>
+          {blog.likes}  <button id="likeButton" onClick={() => updateBlog({ blog })}> like </button>
           <br></br> {blog.url}
           {owner ?
             <div> <button onClick={() => deleteBlog({ blog })}> delete </button> </div>:
